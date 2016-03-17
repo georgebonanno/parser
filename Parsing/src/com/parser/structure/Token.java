@@ -13,7 +13,10 @@ public class Token {
 
     public enum TokenDescription {
         Number,
-        SpecialCharacter,
+        LeftBracket,
+        RightBracket,
+        Operator,
+        UnaryMinus,
         Identifier
     };
     
