@@ -15,13 +15,13 @@ import jdk.nashorn.internal.runtime.regexp.joni.constants.TokenType;
 
 /**
  *
- * @author gbonano
+ * 
  */
 public class Parser {
     
     /**
      * contains the mechanism to parse a list of tokens according to the 
-     * following rools:
+     * following rules:
      * 
      *  <program> ::= {<statement>};
      *  <statement> ::= <assignment>|...other statements;
@@ -56,10 +56,8 @@ public class Parser {
     public ParseTree evaluate() {
         parseTree = new ParseTree();
         lookahead=0;
-        
-        parseTree = parseProgram();
-        
-        return parseTree;
+            parseTree = parseProgram();
+            return parseTree;
     } 
     
     public static ParseTree parseInput(List<Token> tokenList) {
@@ -132,6 +130,14 @@ public class Parser {
             ParseTree pTree = parseStatement();
             if (pTree != null) {
                 parseTree.addChild(pTree);
+            } else if (error == null) {
+                if (lookahead < tokenList.size()) {
+                    throw new IllegalArgumentException("end expected but token found: "+
+                            tokenList.get(lookahead));
+                } else {
+                    throw new IllegalArgumentException("could not parse at end of tokens");
+                }
+                
             } else {
                 throw new IllegalArgumentException("parse error: "+error);
             }

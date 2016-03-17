@@ -7,7 +7,7 @@ package com.parser.structure;
 
 /**
  *
- * @author gbonano
+ * 
  */
 public class Node {
     

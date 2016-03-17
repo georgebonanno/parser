@@ -18,7 +18,7 @@ import parsing.Tokenizer;
 
 /**
  *
- * @author gbonano
+ * 
  */
 public class OnParsingExpression {
     
@@ -27,7 +27,7 @@ public class OnParsingExpression {
     
     @Test
     public void shouldPrintTree() {
-        Tokenizer tokenizer = new Tokenizer("  sa=  1+(3+2)-2");
+        Tokenizer tokenizer = new Tokenizer("  sa=  1+(3+  2)-2");
         List<Token> tokens = tokenizer.tokenizeAllInput();
         System.out.println("tokenized string: "+tokens);
         Parser p = new Parser(tokens);
