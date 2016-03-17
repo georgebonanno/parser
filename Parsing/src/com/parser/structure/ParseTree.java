@@ -5,6 +5,7 @@
  */
 package com.parser.structure;
 
+import com.parser.structure.Node.NodeDescription;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +44,43 @@ public class ParseTree {
         }
     }
     
+    public static ParseTree buildTree(NodeDescription nodeDescription) {
+        return buildTree(nodeDescription, null);
+    }
+    
+    public static ParseTree buildTree(Node rootNode) {
+        ParseTree ptree = new ParseTree();
+        ptree.setValue(rootNode);
+        return ptree;
+    }
+    
+    public static ParseTree buildTree(NodeDescription nodeDescription,
+                                        Object nodeValue) {
+        Node n = new Node();
+        n.setDescription(nodeDescription);
+        n.setValue(nodeValue);
+        ParseTree ptree = new ParseTree();
+        ptree.setValue(n);
+        return ptree;
+    }
+    
     public static void printTree(ParseTree pTree) {
         printTreeWithDepth(pTree, 0);
     }
     
+    public void addChild(Node node) {
+        children.add(buildTree(node));
+    }
+    
+    public void addChild(ParseTree node) {
+        children.add(node);
+    }
+    
+    public void addChild(NodeDescription nodeDescription,
+                            Object nodeValue) {
+        Node node = new Node();
+        node.setValue(nodeValue);
+        node.setDescription(nodeDescription);
+        addChild(node);
+    }
 }

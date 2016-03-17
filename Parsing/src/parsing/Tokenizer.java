@@ -7,9 +7,11 @@ package parsing;
 
 import com.parser.structure.Token;
 import com.parser.structure.Token.TokenDescription;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,7 +43,7 @@ public class Tokenizer {
         }
         if (available()) {
             if ('-' == (char) currentCharacter() && 
-                    !previousTokenIsNumber()) {
+                    !previousTokenIsNumberOrRightBracket()) {
                 tokenDesc = TokenDescription.UnaryMinus;
                 tokenValue+= currentCharacter();
                 position++;
@@ -54,7 +56,9 @@ public class Tokenizer {
             } else if (Character.isAlphabetic(currentCharacter()) ||
                        currentCharacter() == '_') {
                 tokenDesc = TokenDescription.Identifier;
-                while (available() && Character.isDigit(currentCharacter())) {
+                while (available() && 
+                        (Character.isDigit(currentCharacter()) ||
+                         Character.isAlphabetic(currentCharacter()))) {
                     tokenValue+= currentCharacter();
                     position++;
                 }   
@@ -66,7 +70,11 @@ public class Tokenizer {
                 tokenDesc = TokenDescription.RightBracket;
                 tokenValue+= currentCharacter();
                 position++;
-            } else if (OPERATORS.contains(currentCharacter())) {
+            } else if (currentCharacter() == '=') {
+                tokenDesc = TokenDescription.Assignment;
+                tokenValue+= currentCharacter();
+                position++;
+            }else if (OPERATORS.contains(currentCharacter())) {
                 tokenDesc = TokenDescription.Operator;
                 tokenValue+= currentCharacter();
                 position++;
@@ -85,6 +93,14 @@ public class Tokenizer {
         return token;
     }
     
+    public List<Token> tokenizeAllInput() {
+        List<Token> tokens = new ArrayList<>();
+        for (Token token=getNextToken(); token != null; token=getNextToken()) {
+            tokens.add(token);
+        }
+        return tokens;
+    }
+    
     public boolean available() {
         return position < input.length();
     }
@@ -93,8 +109,9 @@ public class Tokenizer {
         return this.input.charAt(position);
     }
 
-    private boolean previousTokenIsNumber() {
+    private boolean previousTokenIsNumberOrRightBracket() {
         return previousToken != null && 
-                    previousToken.getDescription() == TokenDescription.Number;
+                    (previousToken.getDescription() == TokenDescription.Number ||
+                     previousToken.getDescription() == TokenDescription.RightBracket);
     }
 }

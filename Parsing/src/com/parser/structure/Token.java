@@ -17,7 +17,8 @@ public class Token {
         RightBracket,
         Operator,
         UnaryMinus,
-        Identifier
+        Identifier,
+        Assignment
     };
     
     private String value;
@@ -48,7 +49,7 @@ public class Token {
 
     @Override
     public String toString() {
-        return "Token{" + " value=" + value + ",description='" + description +"'}";
+        return description+"(" + value +")";
     }
     
     

@@ -12,10 +12,12 @@ package com.parser.structure;
 public class Node {
     
     public enum NodeDescription {
-        Number,
-        Left_Bracket,
-        Right_Bracket,
-        Expression
+        Expression,
+        Program,
+        Numeral,
+        ExpressionLHS,
+        Assignment,
+        Token
     };
     
     private Object value;
@@ -48,7 +50,13 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node{" + "value=" + value + ", description=" + description + '}';
+        String stringDesc;
+        if (value == null) {
+            stringDesc = "Node{description=" + description + '}';
+        } else {
+            stringDesc = "Node{" + "value=" + value + ", description=" + description + '}';
+        }
+        return stringDesc;
     }
     
     

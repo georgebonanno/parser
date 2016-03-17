@@ -16,11 +16,9 @@ public class OnTokenisation {
     
     @Test
     public void shouldTokenize() {
-        Tokenizer tokenizer = new Tokenizer("332\n+   (343  +(-  2234))");
+        Tokenizer tokenizer = new Tokenizer("sa=   332\n+   \t(343  +(-  2234))");
         Token token;
-
-        while((token=tokenizer.getNextToken()) != null) {
-            System.out.println(token);
-        }
+        
+        System.out.println(tokenizer.tokenizeAllInput());
     }
 }
